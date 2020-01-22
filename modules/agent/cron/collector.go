@@ -56,19 +56,11 @@ func collect(sec int64, fns []func() []*model.MetricValue) {
 			continue
 		}
 
-		mvs := []*model.MetricValue{}
+		var mvs []*model.MetricValue
 		ignoreMetrics := g.Config().IgnoreMetrics
 
 		for _, fn := range fns {
 			items := fn()
-			if items == nil {
-				continue
-			}
-
-			if len(items) == 0 {
-				continue
-			}
-
 			for _, mv := range items {
 				if b, ok := ignoreMetrics[mv.Metric]; ok && b {
 					continue
